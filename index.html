@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<title>CarQR</title>
+
+<style>
+body{
+font-family:Arial;
+background:url("bg.jpg");
+background-size:cover;
+background-position:center;
+margin:0;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.box{
+background:rgba(255,255,255,0.9);
+padding:60px;
+border-radius:20px;
+text-align:center;
+width:500px;
+}
+
+h1{
+font-size:42px;
+margin-bottom:30px;
+}
+
+p{
+font-size:28px;
+margin:20px 0;
+}
+
+a{
+display:inline-block;
+padding:18px 35px;
+font-size:26px;
+background:#ff5a36;
+color:white;
+text-decoration:none;
+border-radius:10px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="box">
+
+<h1>🚗 Mashina egasi</h1>
+
+<p id="name"></p>
+<p id="car"></p>
+<p id="number"></p>
+
+<a id="phoneBtn">📞 Qo‘ng‘iroq qilish</a>
+
+</div>
+
+<script>
+
+let params = new URLSearchParams(window.location.search)
+
+let name = params.get("name")
+let car = params.get("car")
+let number = params.get("number")
+let phone = params.get("phone")
+
+document.getElementById("name").innerText="Ism: "+name
+document.getElementById("car").innerText="Mashina: "+car
+document.getElementById("number").innerText="Raqam: "+number
+
+document.getElementById("phoneBtn").href="tel:"+phone
+
+</script>
+
+</body>
+</html>
