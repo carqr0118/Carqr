@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CarQR</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+margin:0;
+font-family:'Poppins',sans-serif;
+background:url(bg.jpg);
+background-size:cover;
+background-position:center;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.logo{
+position:absolute;
+top:20px;
+left:20px;
+width:120px;
+}
+
+.card{
+background:rgba(0,0,0,0.75);
+backdrop-filter:blur(8px);
+padding:30px;
+border-radius:18px;
+width:320px;
+text-align:center;
+box-shadow:0 10px 30px rgba(0,0,0,0.6);
+border:1px solid rgba(0,200,255,0.3);
+color:white;
+}
+
+h2{
+margin-bottom:20px;
+letter-spacing:1px;
+}
+
+.box{
+background:rgba(255,255,255,0.05);
+border-left:4px solid #00c8ff;
+border-radius:10px;
+padding:10px;
+margin:10px 0;
+text-align:left;
+}
+
+.box span{
+font-size:13px;
+color:#9fdcff;
+}
+
+.box input{
+width:100%;
+padding:8px;
+border:none;
+outline:none;
+background:transparent;
+color:white;
+font-size:16px;
+}
+
+.error{
+color:red;
+font-size:12px;
+}
+
+button{
+width:100%;
+padding:12px;
+background:linear-gradient(90deg,#00c853,#00e676);
+color:white;
+border:none;
+border-radius:10px;
+cursor:pointer;
+font-weight:600;
+margin-top:10px;
+}
+
+canvas{
+margin-top:15px;
+display:none;
+background:white;
+padding:10px;
+border-radius:10px;
+}
+
+.download{
+display:none;
+margin-top:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<img src="logo.jpg" class="logo">
+
+<div class="card">
+
+<h2>CarQR yaratish</h2>
+
+<div class="box">
+<span>Ism Familya</span>
+<input id="name">
+<small id="nameError" class="error"></small>
+</div>
+
+<div class="box">
+<span>Mashina nomi</span>
+<input id="car">
+<small id="carError" class="error"></small>
+</div>
+
+<div class="box">
+<span>Mashina raqami</span>
+<input id="number">
+<small id="numberError" class="error"></small>
+</div>
+
+<div class="box">
+<span>Telefon raqami</span>
+<input id="phone">
+<small id="phoneError" class="error"></small>
+</div>
+
+<button onclick="createQR()">QR yaratish</button>
+
+<br>
+
+<canvas id="qr"></canvas>
+
+<br>
+
+<button class="download" onclick="downloadQR()">QR yuklab olish</button>
+
+</div>
+
+<script>
+
+function createQR(){
+
+let name=document.getElementById("name").value
+let car=document.getElementById("car").value
+let number=document.getElementById("number").value
+let phone=document.getElementById("phone").value
+
+document.getElementById("nameError").innerText=""
+document.getElementById("carError").innerText=""
+document.getElementById("numberError").innerText=""
+document.getElementById("phoneError").innerText=""
+
+let error=false
+
+if(name==""){
+document.getElementById("nameError").innerText="Maydon to'ldirilishi kerak"
+error=true
+}
+
+if(car==""){
+document.getElementById("carError").innerText="Maydon to'ldirilishi kerak"
+error=true
+}
+
+if(number==""){
+document.getElementById("numberError").innerText="Maydon to'ldirilishi kerak"
+error=true
+}
+
+if(phone==""){
+document.getElementById("phoneError").innerText="Maydon to'ldirilishi kerak"
+error=true
+}
+
+if(error){
+return
+}
+
+let link="https://carqr0118.github.io/Carqr_2/create.html?name="+encodeURIComponent(name)+
+"&car="+encodeURIComponent(car)+
+"&number="+encodeURIComponent(number)+
+"&phone="+encodeURIComponent(phone)
+
+let qr="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data="+encodeURIComponent(link)
+
+let canvas=document.getElementById("qr")
+let ctx=canvas.getContext("2d")
+
+let qrImage=new Image()
+qrImage.crossOrigin="anonymous"
+
+qrImage.onload=function(){
+
+canvas.width=250
+canvas.height=250
+
+ctx.drawImage(qrImage,0,0,250,250)
+
+}
+
+qrImage.src=qr
+
+canvas.style.display="block"
+document.querySelector(".download").style.display="inline-block"
+
+}
+
+function downloadQR(){
+
+let canvas=document.getElementById("qr")
+
+let link=document.createElement("a")
+link.download="carqr.png"
+link.href=canvas.toDataURL("image/png")
+link.click()
+
+}
+
+</script>
+
+</body>
+
+</html>
